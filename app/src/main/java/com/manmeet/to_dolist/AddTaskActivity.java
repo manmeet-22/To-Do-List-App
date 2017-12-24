@@ -1,9 +1,17 @@
 package com.manmeet.to_dolist;
 
+import android.content.ContentValues;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.RadioButton;
+import android.widget.Toast;
+
+import com.manmeet.to_dolist.data.TaskContract;
+
+import static com.manmeet.to_dolist.data.TaskContract.TaskEntry.CONTENT_URI;
 
 
 public class AddTaskActivity extends AppCompatActivity {
@@ -27,7 +35,19 @@ public class AddTaskActivity extends AppCompatActivity {
      * It retrieves user input and inserts that new task data into the underlying database.
      */
     public void onClickAddTask(View view) {
-        // Not yet implemented
+        String input = ((EditText) findViewById(R.id.editTextTaskDescription)).getText().toString();
+        if(input.length() == 0){
+            return;
+        }
+        ContentValues contentValues = new ContentValues();
+        contentValues.put(TaskContract.TaskEntry.COLUMN_DESCRIPTION,input);
+        contentValues.put(TaskContract.TaskEntry.COLUMN_PRIORITY,mPriority);
+
+        Uri uri = getContentResolver().insert(CONTENT_URI,contentValues );
+        if (uri!=null){
+            Toast.makeText(getBaseContext(),uri.toString(),Toast.LENGTH_SHORT).show();
+        }
+        finish();
     }
 
 

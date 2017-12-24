@@ -24,10 +24,10 @@
             android:name=".AddTaskActivity"
             android:label="@string/add_task_activity_name" />
 
-        <!-- TODO (3) Register the TaskContentProvider -->
-        <!-- TODO (4) Set name, authorities, and exported attributes -->
-        <!-- exported = false limits access to this ContentProvider to only this app -->
-
+        <provider
+            android:authorities="com.manmeet.to_dolist"
+            android:name="com.manmeet.to_dolist.data.TaskContentProvider"
+            android:exported="false"/>
     </application>
 
 </manifest>

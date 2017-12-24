@@ -22,7 +22,6 @@ public class CustomCursorAdapter extends RecyclerView.Adapter<CustomCursorAdapte
     private Cursor mCursor;
     private Context mContext;
 
-
     /**
      * Constructor for the CustomCursorAdapter that initializes the Context.
      *
