@@ -82,25 +82,43 @@ public class TaskContentProvider extends ContentProvider {
     }
 
 
-        @Override
-        public int delete (@NonNull Uri uri, String selection, String[]selectionArgs){
+    @Override
+    public int delete(@NonNull Uri uri, String selection, String[] selectionArgs) {
 
-            throw new UnsupportedOperationException("Not yet implemented");
+        final SQLiteDatabase db = mTaskDbHelper.getWritableDatabase();
+
+        int match = sUriMatcher.match(uri);
+
+        int returnNumberOfTasks;
+        switch (match) {
+            case TASK_WITH_ID:
+                String id = uri.getPathSegments().get(1);
+                String mSelection = "_id=?";
+                String[] mSelectionArgs = new String[]{id};
+                returnNumberOfTasks = db.delete(TABLE_NAME, mSelection, mSelectionArgs);
+                break;
+            default:
+                throw new UnsupportedOperationException("Unknown Uri " + uri);
         }
-
-
-        @Override
-        public int update (@NonNull Uri uri, ContentValues values, String selection,
-                String[]selectionArgs){
-
-            throw new UnsupportedOperationException("Not yet implemented");
+        if (returnNumberOfTasks != 0) {
+            getContext().getContentResolver().notifyChange(uri, null);
         }
-
-
-        @Override
-        public String getType (@NonNull Uri uri){
-
-            throw new UnsupportedOperationException("Not yet implemented");
-        }
-
+        return returnNumberOfTasks;
     }
+
+
+    @Override
+    public int update(@NonNull Uri uri, ContentValues values, String selection,
+                      String[] selectionArgs) {
+
+        throw new UnsupportedOperationException("Not yet implemented");
+    }
+
+
+    @Override
+    public String getType(@NonNull Uri uri) {
+
+        throw new UnsupportedOperationException("Not yet implemented");
+    }
+
+}
